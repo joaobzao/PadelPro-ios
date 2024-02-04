@@ -12,19 +12,19 @@ import Foundation
 
 struct EventsModel: Decodable, Equatable, Sendable {
     let events: [EventModel]
-}
-
-struct EventModel: Decodable, Equatable, Sendable {
-    let name: String
-    let month: String
-    let days: String
-    let type: String?
-    let category: String?
-    let `class`: String?
-    let prizeMoney: String?
-    let division: String?
-    let location: String?
-    let organization: String?
+    
+    struct EventModel: Decodable, Hashable, Equatable, Sendable {
+        let name: String
+        let month: String
+        let days: String
+        let type: String?
+        let category: String?
+        let `class`: String?
+        let prizeMoney: String?
+        let division: String?
+        let location: String?
+        let organization: String?
+    }
 }
 
 // MARK: - API client interface
@@ -47,6 +47,19 @@ extension DependencyValues {
     get { self[EventsClient.self] }
     set { self[EventsClient.self] = newValue }
   }
+}
+
+// MARK: - Live API implementation
+
+extension EventsClient: DependencyKey {
+  static let liveValue = EventsClient(
+    events: {
+      var url = URL(string: "https://joaobzao.github.io/api/fppadel/2024.json")!
+
+      let (data, _) = try await URLSession.shared.data(from: url)
+      return try jsonDecoder.decode(EventsModel.self, from: data)
+    }
+  )
 }
 
 // MARK: - Mock data
@@ -89,7 +102,14 @@ extension EventsModel {
             division: "VET",
             location: "Open Aveiro Padel Veteranos",
             organization: "Aveiro Padel Indoor"
-        )   
+        )
     ]
   )
 }
+
+// MARK: - Private helpers
+
+private let jsonDecoder: JSONDecoder = {
+  let decoder = JSONDecoder()
+  return decoder
+}()

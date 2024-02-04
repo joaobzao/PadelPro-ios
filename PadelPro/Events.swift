@@ -6,25 +6,63 @@
 //
 
 import ComposableArchitecture
+import SwiftUI
 
 @Reducer
 struct Events {
     @ObservableState
     struct State {
-        var events: [Event] = []
+        var events: [EventsModel.EventModel] = []
     }
     
     enum Action {
-        case events
+        case eventsResponse(Result<EventsModel, Error>)
+        case retrieveEvents
     }
+    
+    @Dependency(\.eventsClient) var eventsClient
+    private enum CancelID { case events }
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
-            case .events:
-                state.events = [.init()]
+            case .eventsResponse(.failure):
+                state.events = []
                 return .none
+            case let .eventsResponse(.success(response)):
+                state.events = response.events
+                return .none
+            case .retrieveEvents:
+                return .run { send in
+                    await send(
+                        .eventsResponse(
+                            Result { try await self.eventsClient.events() }
+                        )
+                    )
+                }
+                .cancellable(id: CancelID.events, cancelInFlight: true)
             }
         }
     }
+}
+
+struct EventsView: View {
+    @Bindable var store: StoreOf<Events>
+    
+    var body: some View {
+        List {
+            ForEach(store.events, id: \.self) { event in
+                Text(event.name)
+            }
+        }
+        .onAppear { store.send(.retrieveEvents) }
+    }
+}
+
+#Preview {
+  EventsView(
+    store: Store(initialState: Events.State()) {
+      Events()
+    }
+  )
 }
