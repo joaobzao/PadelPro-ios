@@ -50,30 +50,34 @@ struct EventsView: View {
     @Bindable var store: StoreOf<Events>
     
     var body: some View {
-        List {
-            ForEach(store.events, id: \.self) { event in
-                VStack(alignment: .leading) {
-                    Text(event.name)
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    
-                    HStack {
-                        Image(systemName: "calendar")
-                        Text("\(event.month.lowercased().capitalized) - \(event.days)")
-                            .foregroundStyle(.gray)
-                            .fontWeight(.semibold)
-                    }
-                    
-                    if let location = event.location {
+        NavigationStack {
+            List {
+                ForEach(store.events, id: \.self) { event in
+                    VStack(alignment: .leading) {
+                        Text(event.name)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                        
                         HStack {
-                            Image(systemName: "location.fill")
-                            Text(location)
+                            Image(systemName: "calendar")
+                            Text("\(event.month.lowercased().capitalized) - \(event.days)")
+                                .foregroundStyle(.gray)
+                                .fontWeight(.semibold)
+                        }
+                        
+                        if let location = event.location {
+                            HStack {
+                                Image(systemName: "location.fill")
+                                Text(location)
+                            }
                         }
                     }
                 }
             }
+            .onAppear { store.send(.retrieveEvents) }
+            .navigationTitle("FPPadel 2024")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .onAppear { store.send(.retrieveEvents) }
     }
 }
 
