@@ -52,7 +52,25 @@ struct EventsView: View {
     var body: some View {
         List {
             ForEach(store.events, id: \.self) { event in
-                Text(event.name)
+                VStack(alignment: .leading) {
+                    Text(event.name)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    
+                    HStack {
+                        Image(systemName: "calendar")
+                        Text("\(event.month.lowercased().capitalized) - \(event.days)")
+                            .foregroundStyle(.gray)
+                            .fontWeight(.semibold)
+                    }
+                    
+                    if let location = event.location {
+                        HStack {
+                            Image(systemName: "location.fill")
+                            Text(location)
+                        }
+                    }
+                }
             }
         }
         .onAppear { store.send(.retrieveEvents) }
