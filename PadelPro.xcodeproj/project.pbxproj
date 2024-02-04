@@ -14,6 +14,10 @@
 		A585D3FF2B6FB79F00A0B154 /* PadelProTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A585D3FE2B6FB79F00A0B154 /* PadelProTests.swift */; };
 		A585D4092B6FB79F00A0B154 /* PadelProUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A585D4082B6FB79F00A0B154 /* PadelProUITests.swift */; };
 		A585D40B2B6FB79F00A0B154 /* PadelProUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A585D40A2B6FB79F00A0B154 /* PadelProUITestsLaunchTests.swift */; };
+		A585D4192B6FB92400A0B154 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = A585D4182B6FB92400A0B154 /* ComposableArchitecture */; };
+		A585D41B2B6FBE7000A0B154 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = A585D41A2B6FBE7000A0B154 /* Events.swift */; };
+		A585D41D2B6FBF2000A0B154 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = A585D41C2B6FBF2000A0B154 /* Event.swift */; };
+		A585D41F2B6FCF2600A0B154 /* EventsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A585D41E2B6FCF2600A0B154 /* EventsClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +48,9 @@
 		A585D4042B6FB79F00A0B154 /* PadelProUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PadelProUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A585D4082B6FB79F00A0B154 /* PadelProUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadelProUITests.swift; sourceTree = "<group>"; };
 		A585D40A2B6FB79F00A0B154 /* PadelProUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadelProUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A585D41A2B6FBE7000A0B154 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
+		A585D41C2B6FBF2000A0B154 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		A585D41E2B6FCF2600A0B154 /* EventsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A585D4192B6FB92400A0B154 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +106,9 @@
 				A585D3EF2B6FB79D00A0B154 /* ContentView.swift */,
 				A585D3F12B6FB79F00A0B154 /* Assets.xcassets */,
 				A585D3F32B6FB79F00A0B154 /* Preview Content */,
+				A585D41A2B6FBE7000A0B154 /* Events.swift */,
+				A585D41C2B6FBF2000A0B154 /* Event.swift */,
+				A585D41E2B6FCF2600A0B154 /* EventsClient.swift */,
 			);
 			path = PadelPro;
 			sourceTree = "<group>";
@@ -143,6 +154,9 @@
 			dependencies = (
 			);
 			name = PadelPro;
+			packageProductDependencies = (
+				A585D4182B6FB92400A0B154 /* ComposableArchitecture */,
+			);
 			productName = PadelPro;
 			productReference = A585D3EA2B6FB79D00A0B154 /* PadelPro.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +229,9 @@
 				Base,
 			);
 			mainGroup = A585D3E12B6FB79D00A0B154;
+			packageReferences = (
+				A585D4172B6FB92400A0B154 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = A585D3EB2B6FB79D00A0B154 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -257,6 +274,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A585D41D2B6FBF2000A0B154 /* Event.swift in Sources */,
+				A585D41B2B6FBE7000A0B154 /* Events.swift in Sources */,
+				A585D41F2B6FCF2600A0B154 /* EventsClient.swift in Sources */,
 				A585D3F02B6FB79D00A0B154 /* ContentView.swift in Sources */,
 				A585D3EE2B6FB79D00A0B154 /* PadelProApp.swift in Sources */,
 			);
@@ -588,6 +608,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A585D4172B6FB92400A0B154 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A585D4182B6FB92400A0B154 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A585D4172B6FB92400A0B154 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A585D3E22B6FB79D00A0B154 /* Project object */;
 }
