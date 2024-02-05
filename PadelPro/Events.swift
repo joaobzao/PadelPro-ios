@@ -43,8 +43,7 @@ struct Events {
     enum Action: BindableAction, Sendable {
         case binding(BindingAction<State>)
         case eventsResponse(Result<EventsModel, Error>)
-        case events(IdentifiedActionOf<Event>)
-        case retrieveEvents
+        case events
     }
     
     @Dependency(\.eventsClient) var eventsClient
@@ -62,7 +61,7 @@ struct Events {
                 state.events = response.events
                 return .none
                 
-            case .retrieveEvents:
+            case .events:
                 return .run { send in
                     await send(
                         .eventsResponse(
@@ -73,9 +72,6 @@ struct Events {
                 .cancellable(id: CancelID.events, cancelInFlight: true)
             
             case .binding:
-                return .none
-                
-            case .events(_):
                 return .none
             }
         }
@@ -107,7 +103,7 @@ struct EventsView: View {
                 }
                 .listStyle(SidebarListStyle())
             }
-            .onAppear { store.send(.retrieveEvents) }
+            .onAppear { store.send(.events) }
             .navigationTitle("FPPadel 2024")
             .navigationBarTitleDisplayMode(.inline)
         }
