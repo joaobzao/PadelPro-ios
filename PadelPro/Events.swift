@@ -15,13 +15,51 @@ enum FilterEventType: LocalizedStringKey, CaseIterable, Hashable {
     case league = "Ligas"
 }
 
-enum FilterEventDivision: LocalizedStringKey, CaseIterable, Hashable {
-    case all = "Tudo"
-    case abs = "Absolutos"
-    case jov = "Jovens"
-    case vet = "Veteranos"
-    case adaptado = "Adaptado"
-    case vetJov = "Vet & Jov"
+enum FilterEventDivision: String, Comparable, CaseIterable, Hashable {
+    static func < (lhs: FilterEventDivision, rhs: FilterEventDivision) -> Bool {
+        return lhs.sortOrder < rhs.sortOrder
+    }
+    
+    case abs = "ABS"
+    case jov = "JOV"
+    case vet = "VET"
+    case adaptado = "PA"
+    case vetJov = "VET e JOV"
+    case coach = "TR"
+    case ref = "JA"
+    case assembleia = "AG"
+    case director = "DIR"
+    case organization = "AO"
+    
+    private var sortOrder: Int {
+        switch self {
+        case .abs: 0
+        case .jov: 1
+        case .vet: 2
+        case .adaptado: 3
+        case .vetJov: 4
+        case .coach: 5
+        case .ref: 6
+        case .assembleia: 7
+        case .director: 8
+        case .organization: 9
+        }
+    }
+    
+    var description: String {
+        switch self {
+        case .abs: "Absolutos"
+        case .jov: "Jovens"
+        case .vet: "Veteranos"
+        case .adaptado: "Adaptado"
+        case .vetJov: "Vet & Jov"
+        case .coach: "Treinador"
+        case .ref: "Juiz Árbitro"
+        case .assembleia: "Assembleia Geral"
+        case .director: "Formação de Dirigentes"
+        case .organization: "FPPadel Organização"
+        }
+    }
 }
 
 @Reducer
@@ -46,8 +84,17 @@ struct Events {
             Dictionary(grouping: filteredEventsType, by: { $0.division })
         }
         
-        var uniqueEventDivs: [String] {
-            eventsByDiv.map({ $0.key }).sorted()
+        var uniqueEventDivs: [FilterEventDivision] {
+            eventsByDiv.map {
+                guard let division = FilterEventDivision(rawValue: $0.key)
+                else {
+                    assertionFailure("division missing:  \($0.key)")
+                    
+                    return FilterEventDivision.abs
+                }
+                
+                return division
+            }.sorted()
         }
     }
     
@@ -109,8 +156,12 @@ struct EventsView: View {
             VStack(alignment: .leading) {
                 List {
                     ForEach(store.uniqueEventDivs, id: \.self) { division in
-                        Section(header: Text(division)) {
-                            ForEach(self.store.eventsByDiv[division] ?? [], id: \.self) { event in
+                        Section(
+                            header: Text(division.description)
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                        ) {
+                            ForEach(self.store.eventsByDiv[division.rawValue] ?? [], id: \.self) { event in
                                 EventView(event: event)
                             }
                         }
