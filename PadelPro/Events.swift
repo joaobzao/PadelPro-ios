@@ -47,7 +47,6 @@ struct Events {
     }
     
     @Dependency(\.eventsClient) var eventsClient
-    @Dependency(\.uuid) var uuid
     private enum CancelID { case events }
     
     var body: some Reducer<State, Action> {
