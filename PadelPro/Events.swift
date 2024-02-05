@@ -107,18 +107,10 @@ struct EventsView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                Picker("Filter", selection: $store.filterEventDivision) {
-                  ForEach(FilterEventDivision.allCases, id: \.self) { filter in
-                    Text(filter.rawValue).tag(filter)
-                  }
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
-                
                 List {
                     ForEach(store.uniqueEventDivs, id: \.self) { division in
                         Section(header: Text(division)) {
-                            ForEach(self.store.eventsByDiv[division]!, id: \.self) { event in
+                            ForEach(self.store.eventsByDiv[division] ?? [], id: \.self) { event in
                                 EventView(event: event)
                             }
                         }
@@ -130,7 +122,7 @@ struct EventsView: View {
             .navigationTitle("FPPadel 2024")
             .navigationBarTitleDisplayMode(.inline)
         }
-        .searchable(text: $store.searchText, prompt: "Pesquisa competições")
+        .searchable(text: $store.searchText, prompt: "Pesquisa")
         .onSubmit(of: .search) { store.send(.searchQuerySubmit(store.searchText)) }
         .onChange(of: store.searchText) {
             guard store.searchText.isEmpty else { return }
