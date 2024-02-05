@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "932D65F5-CE32-48FA-9D24-D82AA3D58970"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E78E648D-5E47-4AD8-8F2A-689FF020869D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PadelPro/Events.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "filteredEvents"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "E78E648D-5E47-4AD8-8F2A-689FF020869D - 22cdd3b013bd4c47"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PadelPro.Events.State.filteredEvents.getter : Swift.Array&lt;PadelPro.EventsModel.EventModel&gt;"
+                  moduleName = "PadelPro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joaobzao/Documents/dev/ios/PadelPro-ios/PadelPro/Events.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "240">
+               </Location>
+               <Location
+                  uuid = "E78E648D-5E47-4AD8-8F2A-689FF020869D - 9a94c399a29c5b55"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (PadelPro.EventsModel.EventModel) -&gt; Swift.Bool in PadelPro.Events.State.filteredEvents.getter : Swift.Array&lt;PadelPro.EventsModel.EventModel&gt;"
+                  moduleName = "PadelPro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joaobzao/Documents/dev/ios/PadelPro-ios/PadelPro/Events.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "28"
+                  endingLineNumber = "28"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

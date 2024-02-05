@@ -21,7 +21,7 @@ struct EventsModel: Decodable, Equatable, Sendable {
         let category: String?
         let `class`: String?
         let prizeMoney: String?
-        let division: String?
+        let division: String
         let location: String?
         let organization: String?
     }

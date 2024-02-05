@@ -19,16 +19,24 @@ enum Filter: LocalizedStringKey, CaseIterable, Hashable {
 struct Events {
     @ObservableState
     struct State: Equatable {
-        var events: IdentifiedArrayOf<Event.State> = []
+        var events: [EventsModel.EventModel] = []
         var filter: Filter = .all
         
-        var filteredEvents: IdentifiedArrayOf<Event.State> {
+        var filteredEvents: [EventsModel.EventModel] {
             switch filter {
             case .all: return events
             case .trainning: return events.filter { $0.type == "FOR" }
             case .competition: return events.filter { $0.type == "CIR" }
             case .league: return events.filter { $0.type == "EQU" }
             }
+        }
+        
+        var eventsByDiv: [String: [EventsModel.EventModel]] {
+            Dictionary(grouping: events, by: { $0.division })
+        }
+        
+        var uniqueEventDivs: [String] {
+            eventsByDiv.map({ $0.key }).sorted()
         }
     }
     
@@ -51,18 +59,7 @@ struct Events {
                 state.events = []
                 return .none
             case let .eventsResponse(.success(response)):
-                let events = response.events.map { event in
-                    Event.State(
-                        id: UUID(),
-                        name: event.name,
-                        month: event.month,
-                        days: event.days,
-                        type: event.type,
-                        location: event.location
-                    )
-                }
-                
-                state.events.insert(contentsOf: events, at: 0)
+                state.events = response.events
                 return .none
                 
             case .retrieveEvents:
@@ -82,9 +79,6 @@ struct Events {
                 return .none
             }
         }
-        .forEach(\.events, action: \.events) {
-            Event()
-        }
     }
 }
 
@@ -103,10 +97,15 @@ struct EventsView: View {
                 .padding(.horizontal)
                 
                 List {
-                    ForEach(store.scope(state: \.filteredEvents, action: \.events)) { store in
-                        EventView(store: store)
+                    ForEach(store.uniqueEventDivs, id: \.self) { division in
+                        Section(header: Text(division)) {
+                            ForEach(self.store.eventsByDiv[division]!, id: \.self) { event in
+                                EventView(event: event)
+                            }
+                        }
                     }
                 }
+                .listStyle(SidebarListStyle())
             }
             .onAppear { store.send(.retrieveEvents) }
             .navigationTitle("FPPadel 2024")

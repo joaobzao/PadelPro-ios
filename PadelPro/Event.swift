@@ -16,6 +16,7 @@ struct Event {
         var name: String
         var month: String
         var days: String
+        var division: String
         var type: String?
         var location: String?
         var isFavourite: Bool = false
@@ -31,22 +32,22 @@ struct Event {
 }
 
 struct EventView: View {
-    @Bindable var store: StoreOf<Event>
+    let event: EventsModel.EventModel
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(store.name)
+            Text(event.name)
                 .font(.title2)
                 .fontWeight(.bold)
             
             HStack {
                 Image(systemName: "calendar")
-                Text("\(store.month.lowercased().capitalized) - \(store.days)")
+                Text("\(event.month.lowercased().capitalized) - \(event.days)")
                     .foregroundStyle(.gray)
                     .fontWeight(.semibold)
             }
             
-            if let location = store.location {
+            if let location = event.location {
                 HStack {
                     Image(systemName: "location.fill")
                     Text(location)
