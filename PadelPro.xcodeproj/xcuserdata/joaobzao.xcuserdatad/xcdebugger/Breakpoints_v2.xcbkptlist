@@ -14,9 +14,9 @@
             filePath = "PadelPro/Events.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "filteredEvents"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "filteredEventsType"
             landmarkType = "24">
             <Locations>
                <Location

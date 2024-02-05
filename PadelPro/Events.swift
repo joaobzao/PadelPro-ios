@@ -8,11 +8,20 @@
 import ComposableArchitecture
 import SwiftUI
 
-enum Filter: LocalizedStringKey, CaseIterable, Hashable {
-    case all = "Todos"
+enum FilterEventType: LocalizedStringKey, CaseIterable, Hashable {
+    case all = "Tudo"
     case trainning = "Formação"
-    case competition = "Competição"
+    case competition = "Torneios"
     case league = "Ligas"
+}
+
+enum FilterEventDivision: LocalizedStringKey, CaseIterable, Hashable {
+    case all = "Tudo"
+    case abs = "Absolutos"
+    case jov = "Jovens"
+    case vet = "Veteranos"
+    case adaptado = "Adaptado"
+    case vetJov = "Vet & Jov"
 }
 
 @Reducer
@@ -20,10 +29,12 @@ struct Events {
     @ObservableState
     struct State: Equatable {
         var events: [EventsModel.EventModel] = []
-        var filter: Filter = .all
+        var filterEventType: FilterEventType = .all
+        var filterEventDivision: FilterEventDivision = .abs
+        var searchText = ""
         
-        var filteredEvents: [EventsModel.EventModel] {
-            switch filter {
+        var filteredEventsType: [EventsModel.EventModel] {
+            switch filterEventType {
             case .all: return events
             case .trainning: return events.filter { $0.type == "FOR" }
             case .competition: return events.filter { $0.type == "CIR" }
@@ -32,7 +43,7 @@ struct Events {
         }
         
         var eventsByDiv: [String: [EventsModel.EventModel]] {
-            Dictionary(grouping: events, by: { $0.division })
+            Dictionary(grouping: filteredEventsType, by: { $0.division })
         }
         
         var uniqueEventDivs: [String] {
@@ -43,6 +54,7 @@ struct Events {
     enum Action: BindableAction, Sendable {
         case binding(BindingAction<State>)
         case eventsResponse(Result<EventsModel, Error>)
+        case searchQuerySubmit(String)
         case events
     }
     
@@ -72,6 +84,18 @@ struct Events {
             
             case .binding:
                 return .none
+                
+            case let .searchQuerySubmit(query):
+                guard !query.isEmpty
+                else {
+                    return .run { send in
+                        await send(.events)
+                    }
+                    .cancellable(id: CancelID.events, cancelInFlight: true)
+                }
+                
+                state.events = state.events.filter { $0.name.contains(query) }
+                return .none
             }
         }
     }
@@ -83,8 +107,8 @@ struct EventsView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                Picker("Filter", selection: $store.filter) {
-                  ForEach(Filter.allCases, id: \.self) { filter in
+                Picker("Filter", selection: $store.filterEventDivision) {
+                  ForEach(FilterEventDivision.allCases, id: \.self) { filter in
                     Text(filter.rawValue).tag(filter)
                   }
                 }
@@ -100,11 +124,18 @@ struct EventsView: View {
                         }
                     }
                 }
-                .listStyle(SidebarListStyle())
+                .listStyle(.plain)
             }
             .onAppear { store.send(.events) }
             .navigationTitle("FPPadel 2024")
             .navigationBarTitleDisplayMode(.inline)
+        }
+        .searchable(text: $store.searchText, prompt: "Pesquisa competições")
+        .onSubmit(of: .search) { store.send(.searchQuerySubmit(store.searchText)) }
+        .onChange(of: store.searchText) {
+            guard store.searchText.isEmpty else { return }
+            
+            store.send(.searchQuerySubmit(store.searchText))
         }
     }
 }
