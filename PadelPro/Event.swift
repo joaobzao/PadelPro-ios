@@ -35,22 +35,43 @@ struct EventView: View {
     let event: EventsModel.EventModel
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 6) {
             Text(event.name)
                 .font(.title2)
                 .fontWeight(.bold)
             
             HStack {
                 Image(systemName: "calendar")
+                    .foregroundStyle(Color.red)
                 Text("\(event.month.lowercased().capitalized) - \(event.days)")
                     .foregroundStyle(.gray)
                     .fontWeight(.semibold)
             }
             
+            if let classe = event.class {
+                HStack {
+                    Image(systemName: "gauge.high")
+                    Text(classe)
+                        .foregroundStyle(.gray)
+                        .fontWeight(.semibold)
+                }
+            }
+            
+            if let category = event.category {
+                HStack {
+                    Image(systemName: "scope")
+                    Text(category)
+                        .foregroundStyle(.gray)
+                        .fontWeight(.semibold)
+                }
+            }
+            
             if let location = event.location {
                 HStack {
                     Image(systemName: "location.fill")
+                        .foregroundStyle(Color.accentColor)
                     Text(location)
+                        .fontWeight(.semibold)
                 }
             }
         }
