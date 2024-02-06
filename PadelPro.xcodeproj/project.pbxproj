@@ -37,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A51EFAA32B71B24300C3BA8B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A585D3EA2B6FB79D00A0B154 /* PadelPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PadelPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A585D3ED2B6FB79D00A0B154 /* PadelProApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadelProApp.swift; sourceTree = "<group>"; };
 		A585D3F12B6FB79F00A0B154 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -100,6 +101,7 @@
 		A585D3EC2B6FB79D00A0B154 /* PadelPro */ = {
 			isa = PBXGroup;
 			children = (
+				A51EFAA32B71B24300C3BA8B /* Info.plist */,
 				A585D3ED2B6FB79D00A0B154 /* PadelProApp.swift */,
 				A585D3F12B6FB79F00A0B154 /* Assets.xcassets */,
 				A585D3F32B6FB79F00A0B154 /* Preview Content */,
@@ -441,6 +443,7 @@
 				DEVELOPMENT_TEAM = 6VH3SWF3AU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PadelPro/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -470,6 +473,7 @@
 				DEVELOPMENT_TEAM = 6VH3SWF3AU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PadelPro/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
