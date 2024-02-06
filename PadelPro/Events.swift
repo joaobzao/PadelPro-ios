@@ -170,7 +170,7 @@ struct EventsView: View {
                 .listStyle(.plain)
             }
             .onAppear { store.send(.events) }
-            .navigationTitle("FPPadel 2024")
+            .navigationTitle("Actividades Padel 2024")
             .navigationBarTitleDisplayMode(.inline)
         }
         .searchable(text: $store.searchText, prompt: "Pesquisa")
