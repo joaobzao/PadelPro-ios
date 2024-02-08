@@ -66,12 +66,12 @@ enum FilterEventDivision: String, Comparable, CaseIterable, Hashable {
 struct Events {
     @ObservableState
     struct State: Equatable {
-        var events: [EventsModel.EventModel] = []
+        var events: IdentifiedArrayOf<Event.State> = []
         var filterEventType: FilterEventType = .all
         var filterEventDivision: FilterEventDivision = .abs
         var searchText = ""
         
-        var filteredEventsType: [EventsModel.EventModel] {
+        var filteredEventsType: IdentifiedArrayOf<Event.State> {
             switch filterEventType {
             case .all: return events
             case .trainning: return events.filter { $0.type == "FOR" }
@@ -80,8 +80,9 @@ struct Events {
             }
         }
         
-        var eventsByDiv: [String: [EventsModel.EventModel]] {
+        var eventsByDiv: [String: IdentifiedArrayOf<Event.State>] {
             Dictionary(grouping: filteredEventsType, by: { $0.division })
+                .mapValues { IdentifiedArray(uniqueElements: $0) }
         }
         
         var uniqueEventDivs: [FilterEventDivision] {
@@ -102,7 +103,8 @@ struct Events {
         case binding(BindingAction<State>)
         case eventsResponse(Result<EventsModel, Error>)
         case searchQuerySubmit(String)
-        case events
+        case retrieveEvents
+        case events(IdentifiedActionOf<Event>)
     }
     
     @Dependency(\.eventsClient) var eventsClient
@@ -116,10 +118,27 @@ struct Events {
                 state.events = []
                 return .none
             case let .eventsResponse(.success(response)):
-                state.events = response.events
+                state.events = IdentifiedArrayOf(
+                    uniqueElements: response.events.map {
+                        Event.State(
+                            id: UUID(),
+                            name: $0.name,
+                            month: $0.month,
+                            days: $0.days,
+                            division: $0.division,
+                            classe: $0.class,
+                            category: $0.category,
+                            type: $0.type,
+                            location: $0.location
+                        )
+                    }
+                )
                 return .none
                 
             case .events:
+                return .none
+                
+            case .retrieveEvents:
                 return .run { send in
                     await send(
                         .eventsResponse(
@@ -136,7 +155,7 @@ struct Events {
                 guard !query.isEmpty
                 else {
                     return .run { send in
-                        await send(.events)
+                        await send(.retrieveEvents)
                     }
                     .cancellable(id: CancelID.events, cancelInFlight: true)
                 }
@@ -145,6 +164,9 @@ struct Events {
                 return .none
             }
         }
+        .forEach(\.events, action: \.events) {
+              Event()
+            }
     }
 }
 
@@ -161,15 +183,15 @@ struct EventsView: View {
                                 .font(.title2)
                                 .fontWeight(.semibold)
                         ) {
-                            ForEach(self.store.eventsByDiv[division.rawValue] ?? [], id: \.self) { event in
-                                EventView(event: event)
+                            ForEach(store.scope(state: \.eventsByDiv[safe: division.rawValue], action: \.events)) { store in
+                                EventView(store: store)
                             }
                         }
                     }
                 }
                 .listStyle(.plain)
             }
-            .onAppear { store.send(.events) }
+            .onAppear { store.send(.retrieveEvents) }
             .navigationTitle("Actividades Padel 2024")
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -180,6 +202,12 @@ struct EventsView: View {
             
             store.send(.searchQuerySubmit(store.searchText))
         }
+    }
+}
+
+extension Dictionary where Value == IdentifiedArrayOf<Event.State> {
+    subscript(safe key: Key) -> Value {
+        return self[key] ?? Value()
     }
 }
 
