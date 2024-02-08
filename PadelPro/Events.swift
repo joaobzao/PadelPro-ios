@@ -13,6 +13,7 @@ enum FilterEventType: LocalizedStringKey, CaseIterable, Hashable {
     case trainning = "Formação"
     case competition = "Torneios"
     case league = "Ligas"
+    case favourites = "Favoritos"
 }
 
 enum FilterEventDivision: String, Comparable, CaseIterable, Hashable {
@@ -77,6 +78,7 @@ struct Events {
             case .trainning: return events.filter { $0.type == "FOR" }
             case .competition: return events.filter { $0.type == "CIR" }
             case .league: return events.filter { $0.type == "EQU" }
+            case .favourites: return events.filter { $0.isFavourite }
             }
         }
         

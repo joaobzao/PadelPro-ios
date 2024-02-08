@@ -73,7 +73,6 @@ struct ContentView: View {
                 Text(FilterEventType.league.rawValue)
             }
             
-            
             EventsView(
                 store: Store(
                     initialState: Events.State(
@@ -86,6 +85,21 @@ struct ContentView: View {
             )
             .tabItem {
                 Image(systemName: "graduationcap.fill")
+                Text(FilterEventType.trainning.rawValue)
+            }
+            
+            EventsView(
+                store: Store(
+                    initialState: Events.State(
+                        filterEventType: .favourites
+                    )
+                ) {
+                    Events()
+                        ._printChanges()
+                }
+            )
+            .tabItem {
+                Image(systemName: "heart.fill")
                 Text(FilterEventType.trainning.rawValue)
             }
         }
