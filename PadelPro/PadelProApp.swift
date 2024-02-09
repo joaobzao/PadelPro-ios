@@ -88,16 +88,15 @@ struct ContentView: View {
                 Text(FilterEventType.trainning.rawValue)
             }
             
-            EventsView(
+            FavouritesView(
                 store: Store(
-                    initialState: Events.State(
+                    initialState: Favourites.State(
                         filterEventType: .favourites
                     )
                 ) {
-                    Events()
+                    Favourites()
                         ._printChanges()
-                },
-                isFavouriteTab: true
+                }
             )
             .tabItem {
                 Image(systemName: "heart.fill")

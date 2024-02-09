@@ -35,6 +35,7 @@ struct Event {
             
             switch action {
             case let .toggleFavourite(toggle, itemId):
+                state.isFavourite = toggle
                 if toggle {
                     UserDefaults.standard.set(toggle, forKey: itemId)
                 } else {

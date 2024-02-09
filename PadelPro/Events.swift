@@ -78,7 +78,7 @@ struct Events {
             case .trainning: return events.filter { $0.type == "FOR" }
             case .competition: return events.filter { $0.type == "CIR" }
             case .league: return events.filter { $0.type == "EQU" }
-            case .favourites: return events.filter { UserDefaults.standard.bool(forKey: "\($0.id)") }
+            case .favourites: return events.filter(\.isFavourite)
             }
         }
         
