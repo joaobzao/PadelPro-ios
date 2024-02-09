@@ -14,6 +14,7 @@ struct EventsModel: Decodable, Equatable, Sendable {
     let events: [EventModel]
     
     struct EventModel: Decodable, Hashable, Equatable, Sendable {
+        let id: Int
         let name: String
         let month: String
         let days: String
@@ -68,6 +69,7 @@ extension EventsModel {
   static let mock = Self(
     events: [
         .init(
+            id: 1,
             name: "Open Aveiro Padel Veteranos",
             month: "FEVEREIRO",
             days: "23 a 25",
@@ -80,6 +82,7 @@ extension EventsModel {
             organization: "Aveiro Padel Indoor"
         ),
         .init(
+            id: 1,
             name: "Open Aveiro Padel",
             month: "FEVEREIRO",
             days: "23 a 25",
@@ -92,6 +95,7 @@ extension EventsModel {
             organization: "Aveiro Padel Indoor"
         ),
         .init(
+            id: 1,
             name: "Open Aveiro Padel Veteranos",
             month: "FEVEREIRO",
             days: "23 a 25",

@@ -96,7 +96,8 @@ struct ContentView: View {
                 ) {
                     Events()
                         ._printChanges()
-                }
+                },
+                isFavouriteTab: true
             )
             .tabItem {
                 Image(systemName: "heart.fill")

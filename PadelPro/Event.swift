@@ -12,7 +12,7 @@ import SwiftUI
 struct Event {
     @ObservableState
     struct State: Equatable, Identifiable {
-        let id: UUID
+        let id: Int
         var name: String
         var month: String
         var days: String
@@ -21,15 +21,32 @@ struct Event {
         var category: String?
         var type: String?
         var location: String?
-        var isFavourite: Bool = false
+        var isFavourite: Bool
     }
     
     enum Action: BindableAction, Sendable {
         case binding(BindingAction<State>)
+        case toggleFavourite(Bool, String)
     }
     
     var body: some Reducer<State, Action> { 
         BindingReducer()
+        Reduce { state, action in
+            
+            switch action {
+            case let .toggleFavourite(toggle, itemId):
+                if toggle {
+                    UserDefaults.standard.set(toggle, forKey: itemId)
+                } else {
+                    UserDefaults.standard.removeObject(forKey: itemId)
+                }
+
+                return .none
+                
+            case .binding:
+                return .none
+            }
+        }
     }
 }
 

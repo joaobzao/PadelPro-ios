@@ -78,7 +78,7 @@ struct Events {
             case .trainning: return events.filter { $0.type == "FOR" }
             case .competition: return events.filter { $0.type == "CIR" }
             case .league: return events.filter { $0.type == "EQU" }
-            case .favourites: return events.filter { $0.isFavourite }
+            case .favourites: return events.filter { UserDefaults.standard.bool(forKey: "\($0.id)") }
             }
         }
         
@@ -110,7 +110,10 @@ struct Events {
     }
     
     @Dependency(\.eventsClient) var eventsClient
-    private enum CancelID { case events }
+    private enum CancelID {
+        case retrieveEvents
+        case searchQuerySubmit
+    }
     
     var body: some Reducer<State, Action> {
         BindingReducer()
@@ -123,7 +126,7 @@ struct Events {
                 state.events = IdentifiedArrayOf(
                     uniqueElements: response.events.map {
                         Event.State(
-                            id: UUID(),
+                            id: $0.id,
                             name: $0.name,
                             month: $0.month,
                             days: $0.days,
@@ -131,7 +134,8 @@ struct Events {
                             classe: $0.class,
                             category: $0.category,
                             type: $0.type,
-                            location: $0.location
+                            location: $0.location,
+                            isFavourite: UserDefaults.standard.bool(forKey: "\($0.id)")
                         )
                     }
                 )
@@ -148,7 +152,7 @@ struct Events {
                         )
                     )
                 }
-                .cancellable(id: CancelID.events, cancelInFlight: true)
+                .cancellable(id: CancelID.retrieveEvents, cancelInFlight: true)
             
             case .binding:
                 return .none
@@ -159,7 +163,7 @@ struct Events {
                     return .run { send in
                         await send(.retrieveEvents)
                     }
-                    .cancellable(id: CancelID.events, cancelInFlight: true)
+                    .cancellable(id: CancelID.searchQuerySubmit, cancelInFlight: true)
                 }
                 
                 state.events = state.events.filter { $0.name.contains(query) }
@@ -174,19 +178,43 @@ struct Events {
 
 struct EventsView: View {
     @Bindable var store: StoreOf<Events>
+    var isFavouriteTab: Bool = false
     
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
                 List {
-                    ForEach(store.uniqueEventDivs, id: \.self) { division in
-                        Section(
-                            header: Text(division.description)
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                        ) {
-                            ForEach(store.scope(state: \.eventsByDiv[safe: division.rawValue], action: \.events)) { store in
-                                EventView(store: store)
+                    if isFavouriteTab {
+                        ForEach(store.scope(state: \.filteredEventsType, action: \.events)) { store in
+                            EventView(store: store)
+                                .swipeActions(allowsFullSwipe: true) {
+                                    Button(role: .destructive) {
+                                        store.send(.toggleFavourite(false, "\(store.state.id)"))
+                                    } label: {
+                                        Image(systemName: "trash.fill")
+                                            .tint(Color.red)
+                                    }
+                                }
+                        }
+                    } else {
+                        ForEach(store.uniqueEventDivs, id: \.self) { division in
+                            Section(
+                                header: Text(division.description)
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                            ) {
+                                ForEach(store.scope(state: \.eventsByDiv[safe: division.rawValue], action: \.events)) { store in
+                                    EventView(store: store)
+                                        .swipeActions {
+                                            Button {
+                                                store.state.isFavourite.toggle()
+                                                store.send(.toggleFavourite(store.state.isFavourite, "\(store.state.id)"))
+                                            } label: {
+                                                Image(systemName: store.state.isFavourite ? "heart.fill" : "heart")
+                                            }
+
+                                        }
+                                }
                             }
                         }
                     }
