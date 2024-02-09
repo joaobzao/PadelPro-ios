@@ -30,6 +30,8 @@ struct PadelProApp: App {
 }
 
 struct ContentView: View {
+    @State private var badge: Int = 0
+    
     var body: some View {
         TabView {
             EventsView(
@@ -100,7 +102,7 @@ struct ContentView: View {
             )
             .tabItem {
                 Image(systemName: "heart.fill")
-                Text(FilterEventType.trainning.rawValue)
+                Text(FilterEventType.favourites.rawValue)
             }
         }
     }

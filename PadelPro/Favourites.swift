@@ -107,8 +107,8 @@ struct FavouritesView: View {
                                     store.send(.toggleFavourite(false, "\(store.state.id)"))
                                     self.store.send(.retrieveEvents)
                                 } label: {
-                                    Image(systemName: "trash.fill")
-                                        .tint(Color.red)
+                                    Image(systemName: "heart.slash.fill")
+                                        .tint(Color.gray)
                                 }
                             }
                     }
@@ -116,7 +116,7 @@ struct FavouritesView: View {
                 .listStyle(.plain)
             }
             .onAppear { store.send(.retrieveEvents) }
-            .navigationTitle("Actividades Padel 2024")
+            .navigationTitle("Eventos de Padel Favoritos")
             .navigationBarTitleDisplayMode(.inline)
         }
         .searchable(text: $store.searchText, prompt: "Pesquisa")

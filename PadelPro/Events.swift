@@ -178,43 +178,33 @@ struct Events {
 
 struct EventsView: View {
     @Bindable var store: StoreOf<Events>
-    var isFavouriteTab: Bool = false
     
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
                 List {
-                    if isFavouriteTab {
-                        ForEach(store.scope(state: \.filteredEventsType, action: \.events)) { store in
-                            EventView(store: store)
-                                .swipeActions(allowsFullSwipe: true) {
-                                    Button(role: .destructive) {
-                                        store.send(.toggleFavourite(false, "\(store.state.id)"))
-                                    } label: {
-                                        Image(systemName: "trash.fill")
-                                            .tint(Color.red)
-                                    }
-                                }
-                        }
-                    } else {
-                        ForEach(store.uniqueEventDivs, id: \.self) { division in
-                            Section(
-                                header: Text(division.description)
-                                    .font(.title2)
-                                    .fontWeight(.semibold)
-                            ) {
-                                ForEach(store.scope(state: \.eventsByDiv[safe: division.rawValue], action: \.events)) { store in
-                                    EventView(store: store)
-                                        .swipeActions {
-                                            Button {
-                                                store.state.isFavourite.toggle()
-                                                store.send(.toggleFavourite(store.state.isFavourite, "\(store.state.id)"))
-                                            } label: {
-                                                Image(systemName: store.state.isFavourite ? "heart.fill" : "heart")
+                    ForEach(store.uniqueEventDivs, id: \.self) { division in
+                        Section(
+                            header: Text(division.description)
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                        ) {
+                            ForEach(store.scope(state: \.eventsByDiv[safe: division.rawValue], action: \.events)) { store in
+                                EventView(store: store)
+                                    .swipeActions {
+                                        Button {
+                                            store.state.isFavourite.toggle()
+                                            store.send(.toggleFavourite(store.state.isFavourite, "\(store.state.id)"))
+                                        } label: {
+                                            VStack {
+                                                Image(systemName: store.state.isFavourite ? "heart.slash.fill" : "heart.fill")
+                                                    .tint(store.state.isFavourite ? Color.gray : Color.green)
+                                                
+                                                Text(store.state.isFavourite ? "remove" : "add")
                                             }
-
                                         }
-                                }
+                                        
+                                    }
                             }
                         }
                     }
