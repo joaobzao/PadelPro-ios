@@ -13,9 +13,10 @@ struct Favourites {
     @ObservableState
     struct State: Equatable {
         var events: IdentifiedArrayOf<Event.State> = []
+        var searchText = ""
         var filterEventType: FilterEventType = .all
         var filterEventDivision: FilterEventDivision = .abs
-        var searchText = ""
+        var hasFavorites: Bool = true
     }
     
     enum Action: BindableAction, Sendable {
@@ -56,6 +57,8 @@ struct Favourites {
                         )
                     }
                 ).filter(\.isFavourite)
+                
+                state.hasFavorites = !state.events.isEmpty
                 return .none
                 
             case .events:
@@ -99,21 +102,25 @@ struct FavouritesView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                List {
-                    ForEach(store.scope(state: \.events, action: \.events)) { store in
-                        EventView(store: store)
-                            .swipeActions(allowsFullSwipe: true) {
-                                Button(role: .destructive) {
-                                    store.send(.toggleFavourite(false, "\(store.state.id)"))
-                                    self.store.send(.retrieveEvents)
-                                } label: {
-                                    Image(systemName: "heart.slash.fill")
-                                        .tint(Color.gray)
+                if store.state.hasFavorites {
+                    List {
+                        ForEach(store.scope(state: \.events, action: \.events)) { store in
+                            EventView(store: store)
+                                .swipeActions(allowsFullSwipe: true) {
+                                    Button(role: .destructive) {
+                                        store.send(.toggleFavourite(false, "\(store.state.id)"))
+                                        self.store.send(.retrieveEvents)
+                                    } label: {
+                                        Image(systemName: "heart.slash.fill")
+                                            .tint(Color.gray)
+                                    }
                                 }
-                            }
+                        }
                     }
+                    .listStyle(.plain)
+                } else {
+                    EmptyFavouritesView()
                 }
-                .listStyle(.plain)
             }
             .onAppear { store.send(.retrieveEvents) }
             .navigationTitle("Eventos de Padel Favoritos")
@@ -135,4 +142,35 @@ struct FavouritesView: View {
             Favourites()
         }
     )
+}
+
+struct EmptyFavouritesView: View {
+    @State var animateSymbol: Bool = true
+    
+    var body: some View {
+        VStack(alignment: .center) {
+            VStack {
+                Image(systemName: "heart.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(Color.accent, .yellow)
+                    .symbolEffect(.bounce, value: animateSymbol)
+                    .padding(.horizontal, 80)
+                    .padding()
+                    .onAppear { animateSymbol.toggle() }
+                
+                Text("Opps... sem favoritos")
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .padding()
+                
+                Text("Adiciona aos teus favoritos arrastando qualquer actividade para a esquerda")
+                    .font(.headline)
+                    .foregroundStyle(.gray)
+                    .padding()
+            }
+        }
+        .padding()
+    }
 }

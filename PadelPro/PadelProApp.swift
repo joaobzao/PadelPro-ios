@@ -30,15 +30,13 @@ struct PadelProApp: App {
 }
 
 struct ContentView: View {
-    @State private var onboardinDone = false
+    @AppStorage("showOnBoarding") private var showOnBoarding: Bool = true
     var data = OnboardingDataModel.data
     
     var body: some View {
-        if !onboardinDone {
+        if !showOnBoarding {
             OnBoardingView(data: data, doneFunction: {
-                /// Update your state here
-                self.onboardinDone = true
-                print("done onboarding")
+                showOnBoarding = false
             })
         } else {
             TabView {

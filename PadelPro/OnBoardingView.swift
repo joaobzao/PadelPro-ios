@@ -74,7 +74,10 @@ struct OnBoardingView: View {
                 HStack {
                     self.progressView()
                     Spacer()
-                    Button(action: nextButton) {
+                    Button {
+                        nextButton()
+                        self.animateSymbol.toggle()
+                    } label: {
                         self.arrowView()
                     }
                 }
