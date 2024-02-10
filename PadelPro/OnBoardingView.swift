@@ -10,6 +10,7 @@ import SwiftUI
 struct OnBoardingView: View {
     var data: [OnboardingDataModel]
     var doneFunction: () -> ()
+    @State var animateSymbol: Bool = true
     
     @State var slideGesture: CGSize = CGSize.zero
     @State var curSlideIndex = 0
@@ -35,7 +36,10 @@ struct OnBoardingView: View {
             
             ZStack(alignment: .center) {
                 ForEach(0..<data.count) { i in
-                    OnBoardingStepView(data: self.data[i])
+                    OnBoardingStepView(
+                        data: self.data[i],
+                        animateSymbol: $animateSymbol
+                    )
                         .offset(x: CGFloat(i) * self.distance)
                         .offset(x: self.slideGesture.width - CGFloat(self.curSlideIndex) * self.distance)
                         .animation(.spring())
@@ -47,6 +51,7 @@ struct OnBoardingView: View {
                                 if self.curSlideIndex < self.data.count - 1 {
                                     withAnimation {
                                         self.curSlideIndex += 1
+                                        self.animateSymbol.toggle()
                                     }
                                 }
                             }
@@ -54,6 +59,7 @@ struct OnBoardingView: View {
                                 if self.curSlideIndex > 0 {
                                     withAnimation {
                                         self.curSlideIndex -= 1
+                                        self.animateSymbol.toggle()
                                     }
                                 }
                             }
@@ -126,10 +132,8 @@ struct OnboardingDataModel {
 
 extension OnboardingDataModel {
     static var data: [OnboardingDataModel] = [
-        OnboardingDataModel(image: "onboarding-relax", heading: "Welcome to App", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-        OnboardingDataModel(image: "onboarding-lookingatart", heading: "Explore the World", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-        OnboardingDataModel(image: "onboarding-sharing1", heading: "Live Life Baby", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-        OnboardingDataModel(image: "onboarding-security1", heading: "Work Hard", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
-        OnboardingDataModel(image: "onboarding-showclients", heading: "Stay Careless", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+        OnboardingDataModel(image: "figure.tennis", heading: "Bem-vindo à Padel Tuga", text: "Calendário de todas as actividades da federação de padel em Portugal."),
+        OnboardingDataModel(image: "book.pages.fill", heading: "Acede de forma rápida e organizada", text: "A tua próxima actividade de padel na ponta dos dedos. Todas as actividades centralizadas num só sitio."),
+        OnboardingDataModel(image: "bolt.heart.fill", heading: "Actividades favoritas", text: "Adiciona as tuas actividades favoritas para um acesso ainda mais imediato")
     ]
 }

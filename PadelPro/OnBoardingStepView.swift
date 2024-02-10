@@ -9,13 +9,20 @@ import SwiftUI
 
 struct OnBoardingStepView: View {
     var data: OnboardingDataModel
+    @Binding var animateSymbol: Bool
     
     var body: some View {
         VStack {
-            Image(data.image)
+            Image(systemName: data.image)
                 .resizable()
+                .frame(maxHeight: 260)
                 .scaledToFit()
+                .symbolRenderingMode(.palette)
+                .foregroundStyle(.brown, .yellow)
+                .symbolEffect(.bounce, value: animateSymbol)
+                .padding()
                 .padding(.bottom, 50)
+                .onAppear { animateSymbol.toggle() }
             
             Text(data.heading)
                 .font(.system(size: 25, design: .rounded))
@@ -35,6 +42,9 @@ struct OnBoardingStepView: View {
 struct OnBoardingStepView_Previews: PreviewProvider {
     static var data = OnboardingDataModel.data[0]
     static var previews: some View {
-        OnBoardingStepView(data: data)
+        OnBoardingStepView(
+            data: data,
+            animateSymbol: .constant(true)
+        )
     }
 }
