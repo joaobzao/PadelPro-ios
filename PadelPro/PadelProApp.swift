@@ -30,79 +30,88 @@ struct PadelProApp: App {
 }
 
 struct ContentView: View {
-    @State private var badge: Int = 0
+    @State private var onboardinDone = false
+    var data = OnboardingDataModel.data
     
     var body: some View {
-        TabView {
-            EventsView(
-                store: Store(initialState: Events.State()) {
-                  Events()
-                    ._printChanges()
-                }
-            )
-            .tabItem {
-                Image(systemName: "house.fill")
-                Text(FilterEventType.all.rawValue)
-            }
-            
-            EventsView(
-                store: Store(
-                    initialState: Events.State(
-                        filterEventType: .competition
-                    )
-                ) {
-                    Events()
+        if !onboardinDone {
+            OnBoardingView(data: data, doneFunction: {
+                /// Update your state here
+                self.onboardinDone = true
+                print("done onboarding")
+            })
+        } else {
+            TabView {
+                EventsView(
+                    store: Store(initialState: Events.State()) {
+                      Events()
                         ._printChanges()
+                    }
+                )
+                .tabItem {
+                    Image(systemName: "house.fill")
+                    Text(FilterEventType.all.rawValue)
                 }
-            )
-            .tabItem {
-                Image(systemName: "figure.tennis")
-                Text(FilterEventType.competition.rawValue)
-            }
-            
-            EventsView(
-                store: Store(
-                    initialState: Events.State(
-                        filterEventType: .league
-                    )
-                ) {
-                    Events()
-                        ._printChanges()
+                
+                EventsView(
+                    store: Store(
+                        initialState: Events.State(
+                            filterEventType: .competition
+                        )
+                    ) {
+                        Events()
+                            ._printChanges()
+                    }
+                )
+                .tabItem {
+                    Image(systemName: "figure.tennis")
+                    Text(FilterEventType.competition.rawValue)
                 }
-            )
-            .tabItem {
-                Image(systemName: "figure.run.square.stack.fill")
-                Text(FilterEventType.league.rawValue)
-            }
-            
-            EventsView(
-                store: Store(
-                    initialState: Events.State(
-                        filterEventType: .trainning
-                    )
-                ) {
-                    Events()
-                        ._printChanges()
+                
+                EventsView(
+                    store: Store(
+                        initialState: Events.State(
+                            filterEventType: .league
+                        )
+                    ) {
+                        Events()
+                            ._printChanges()
+                    }
+                )
+                .tabItem {
+                    Image(systemName: "figure.run.square.stack.fill")
+                    Text(FilterEventType.league.rawValue)
                 }
-            )
-            .tabItem {
-                Image(systemName: "graduationcap.fill")
-                Text(FilterEventType.trainning.rawValue)
-            }
-            
-            FavouritesView(
-                store: Store(
-                    initialState: Favourites.State(
-                        filterEventType: .favourites
-                    )
-                ) {
-                    Favourites()
-                        ._printChanges()
+                
+                EventsView(
+                    store: Store(
+                        initialState: Events.State(
+                            filterEventType: .trainning
+                        )
+                    ) {
+                        Events()
+                            ._printChanges()
+                    }
+                )
+                .tabItem {
+                    Image(systemName: "graduationcap.fill")
+                    Text(FilterEventType.trainning.rawValue)
                 }
-            )
-            .tabItem {
-                Image(systemName: "heart.fill")
-                Text(FilterEventType.favourites.rawValue)
+                
+                FavouritesView(
+                    store: Store(
+                        initialState: Favourites.State(
+                            filterEventType: .favourites
+                        )
+                    ) {
+                        Favourites()
+                            ._printChanges()
+                    }
+                )
+                .tabItem {
+                    Image(systemName: "heart.fill")
+                    Text(FilterEventType.favourites.rawValue)
+                }
             }
         }
     }
