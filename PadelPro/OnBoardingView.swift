@@ -90,17 +90,20 @@ struct OnBoardingView: View {
         Group {
             if self.curSlideIndex == self.data.count - 1 {
                 HStack {
-                    Text("Done")
-                        .font(.system(size: 27, weight: .medium, design: .rounded))
+                    Text("Entrar")
+                        .font(.system(size: 25, weight: .medium, design: .rounded))
                         .foregroundColor(Color(.systemBackground))
+                    
+                    Image(systemName: "tennisball.fill")
+                        .foregroundStyle(.yellow)
                 }
                 .frame(width: 120, height: 50)
-                .background(Color(.label))
+                .background(.accent)
                 .cornerRadius(25)
             } else {
                 Image(systemName: "arrow.right.circle.fill")
                     .resizable()
-                    .foregroundColor(Color(.label))
+                    .foregroundColor(.accent)
                     .scaledToFit()
                     .frame(width: 50)
             }

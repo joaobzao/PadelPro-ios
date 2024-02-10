@@ -34,7 +34,7 @@ struct ContentView: View {
     var data = OnboardingDataModel.data
     
     var body: some View {
-        if !showOnBoarding {
+        if showOnBoarding {
             OnBoardingView(data: data, doneFunction: {
                 showOnBoarding = false
             })
