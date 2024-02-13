@@ -14,10 +14,10 @@
             filePath = "PadelPro/Events.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "271"
-            endingLineNumber = "271"
-            landmarkName = "handleSpotlight(userActivity:onFavouritesSpotlightAction:)"
-            landmarkType = "7">
+            startingLineNumber = "286"
+            endingLineNumber = "286"
+            landmarkName = "EventsView"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -30,9 +30,9 @@
             filePath = "PadelPro/Events.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "276"
-            endingLineNumber = "276"
-            landmarkName = "handleSpotlight(userActivity:onFavouritesSpotlightAction:)"
+            startingLineNumber = "291"
+            endingLineNumber = "291"
+            landmarkName = "subscript(safe:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

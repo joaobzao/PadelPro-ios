@@ -257,8 +257,7 @@ struct EventsView: View {
             perform: {
                 handleSpotlight(
                     userActivity: $0,
-                    onFavouritesSpotlightAction: { id in store.send(.spotlightFavoritesTap(id)) },
-                    onSpotlightItemTap: { id in store.send(.spotlightTap(id)) }
+                    onFavouritesSpotlightAction: { id in store.send(.spotlightFavoritesTap(id)) }
                 )
             }
         )
