@@ -107,6 +107,7 @@ struct Events {
         case eventsResponse(Result<EventsModel, Error>)
         case searchQuerySubmit(String)
         case retrieveEvents
+        case spotlightFavoritesTap(String)
         case events(IdentifiedActionOf<Event>)
     }
     
@@ -171,6 +172,16 @@ struct Events {
                 
                 state.events = state.events.filter { $0.name.contains(query) }
                 return .none
+            case let .spotlightFavoritesTap(id):
+                if let event = state.events.first(where: { $0.id == Int(id) }) {
+                    if !event.isFavourite {
+                        UserDefaults.standard.set(true, forKey: id)
+                    } else {
+                        UserDefaults.standard.removeObject(forKey: id)
+                    }
+                }
+                
+                return .none
             }
         }
         .forEach(\.events, action: \.events) {
@@ -184,8 +195,10 @@ struct Events {
         events.forEach {
             let attributedSet = CSSearchableItemAttributeSet(contentType: .content)
             attributedSet.displayName = $0.name
+            attributedSet.actionIdentifiers = ["CS_FAVORITES_ACTION"]
+            attributedSet.relatedUniqueIdentifier = String($0.id)
             
-            let searchableItem = CSSearchableItem(uniqueIdentifier: nil, domainIdentifier: "activities", attributeSet: attributedSet)
+            let searchableItem = CSSearchableItem(uniqueIdentifier: "\($0.id)", domainIdentifier: "activities", attributeSet: attributedSet)
             searchableItems.append(searchableItem)
         }
         
@@ -239,32 +252,37 @@ struct EventsView: View {
             
             store.send(.searchQuerySubmit(store.searchText))
         }
-//        .onContinueUserActivity(CSSearchableItemActionType, perform: handleSpotlight)
-        .onContinueUserActivity(CSQueryContinuationActionType, perform: handleSpotlightSearchContinuation)
+        .onContinueUserActivity(
+            CSSearchableItemActionType,
+            perform: {
+                handleSpotlight(
+                    userActivity: $0,
+                    onFavouritesSpotlightAction: { id in store.send(.spotlightFavoritesTap(id)) },
+                    onSpotlightItemTap: { id in store.send(.spotlightTap(id)) }
+                )
+            }
+        )
     }
     
-    func handleSpotlightSearchContinuation(userActivity: NSUserActivity) {
-        guard let searchString = userActivity.userInfo?[CSSearchQueryString] as? String else {
-         return
-        }
-
-        // Continue spotlight search
-        // Use the search string as per your app's use-case
-        print(searchString)
-        store.send(.searchQuerySubmit(searchString))
-     }
-    
-    func handleSpotlight(userActivity: NSUserActivity) {
-        guard let title = userActivity.userInfo?[CSSearchQueryString] as? String else {
-            return
+    func handleSpotlight(
+        userActivity: NSUserActivity,
+        onFavouritesSpotlightAction: ((String) -> Void)? = nil
+    ) {
+        guard let uniqueIdentifier = userActivity.userInfo?[CSSearchableItemActivityIdentifier] as? String
+        else { return }
+        
+        if let actionIdentifier = userActivity.userInfo?[CSActionIdentifier] as? String {
+            if actionIdentifier == "CS_FAVORITES_ACTION" {
+                onFavouritesSpotlightAction?(uniqueIdentifier)
+            }
+            
+           return
         }
         
-        // Handle spotlight interaction
-        // Maybe deep-link, or something else entirely
-        // This totally depends on your app's use-case
-        print("Item tapped: \(title)")
-        store.searchText = title
-        store.send(.searchQuerySubmit(title))
+        if let event = store.events.first(where: { $0.id == Int(uniqueIdentifier) }) {
+            store.searchText = event.name
+            store.send(.searchQuerySubmit(event.name))
+        }
     }
 }
 

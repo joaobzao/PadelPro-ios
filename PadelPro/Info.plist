@@ -4,5 +4,16 @@
 <dict>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>CoreSpotlightActions</key>
+	<array>
+		<dict>
+			<key>CoreSpotlightActionTitle</key>
+			<string>Favourites</string>
+			<key>CoreSpotlightActionSymbolImage</key>
+			<string>heart.fill</string>
+			<key>CoreSpotlightActionIdentifier</key>
+			<string>CS_FAVORITES_ACTION</string>
+		</dict>
+	</array>
 </dict>
 </plist>
