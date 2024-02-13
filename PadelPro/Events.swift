@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import CoreSpotlight
 
 enum FilterEventType: LocalizedStringKey, CaseIterable, Hashable {
     case all = "Tudo"
@@ -139,6 +140,8 @@ struct Events {
                         )
                     }
                 )
+                
+                indexData(events: state.events)
                 return .none
                 
             case .events:
@@ -173,6 +176,20 @@ struct Events {
         .forEach(\.events, action: \.events) {
               Event()
             }
+    }
+    
+    func indexData(events: IdentifiedArrayOf<Event.State>) {
+        var searchableItems = [CSSearchableItem]()
+        
+        events.forEach {
+            let attributedSet = CSSearchableItemAttributeSet(contentType: .content)
+            attributedSet.displayName = $0.name
+            
+            let searchableItem = CSSearchableItem(uniqueIdentifier: nil, domainIdentifier: "activities", attributeSet: attributedSet)
+            searchableItems.append(searchableItem)
+        }
+        
+        CSSearchableIndex.default().indexSearchableItems(searchableItems)
     }
 }
 
@@ -222,6 +239,32 @@ struct EventsView: View {
             
             store.send(.searchQuerySubmit(store.searchText))
         }
+//        .onContinueUserActivity(CSSearchableItemActionType, perform: handleSpotlight)
+        .onContinueUserActivity(CSQueryContinuationActionType, perform: handleSpotlightSearchContinuation)
+    }
+    
+    func handleSpotlightSearchContinuation(userActivity: NSUserActivity) {
+        guard let searchString = userActivity.userInfo?[CSSearchQueryString] as? String else {
+         return
+        }
+
+        // Continue spotlight search
+        // Use the search string as per your app's use-case
+        print(searchString)
+        store.send(.searchQuerySubmit(searchString))
+     }
+    
+    func handleSpotlight(userActivity: NSUserActivity) {
+        guard let title = userActivity.userInfo?[CSSearchQueryString] as? String else {
+            return
+        }
+        
+        // Handle spotlight interaction
+        // Maybe deep-link, or something else entirely
+        // This totally depends on your app's use-case
+        print("Item tapped: \(title)")
+        store.searchText = title
+        store.send(.searchQuerySubmit(title))
     }
 }
 

@@ -7,47 +7,95 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E78E648D-5E47-4AD8-8F2A-689FF020869D"
+            uuid = "B81696F4-0869-42A1-8582-4783F4898496"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PadelPro/Events.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
-            landmarkName = "filteredEventsType"
-            landmarkType = "24">
+            startingLineNumber = "265"
+            endingLineNumber = "265"
+            landmarkName = "handleSpotlight(userActivity:)"
+            landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "E78E648D-5E47-4AD8-8F2A-689FF020869D - 22cdd3b013bd4c47"
+                  uuid = "B81696F4-0869-42A1-8582-4783F4898496 - 8626fa62c5bbc8c9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "PadelPro.Events.State.filteredEvents.getter : Swift.Array&lt;PadelPro.EventsModel.EventModel&gt;"
+                  symbolName = "PadelPro.EventsView.handleSpotlight(userActivity: __C.NSUserActivity) -&gt; ()"
                   moduleName = "PadelPro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/joaobzao/Documents/dev/ios/PadelPro-ios/PadelPro/Events.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "28"
-                  endingLineNumber = "28"
-                  offsetFromSymbolStart = "240">
+                  startingLineNumber = "253"
+                  endingLineNumber = "253"
+                  offsetFromSymbolStart = "724">
                </Location>
                <Location
-                  uuid = "E78E648D-5E47-4AD8-8F2A-689FF020869D - 9a94c399a29c5b55"
+                  uuid = "B81696F4-0869-42A1-8582-4783F4898496 - 8626fa62c5bbcf6c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (PadelPro.EventsModel.EventModel) -&gt; Swift.Bool in PadelPro.Events.State.filteredEvents.getter : Swift.Array&lt;PadelPro.EventsModel.EventModel&gt;"
+                  symbolName = "PadelPro.EventsView.handleSpotlight(userActivity: __C.NSUserActivity) -&gt; ()"
                   moduleName = "PadelPro"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/joaobzao/Documents/dev/ios/PadelPro-ios/PadelPro/Events.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "28"
-                  endingLineNumber = "28"
-                  offsetFromSymbolStart = "48">
+                  startingLineNumber = "256"
+                  endingLineNumber = "256"
+                  offsetFromSymbolStart = "240">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "70C440F2-860C-4519-A9DB-7A269C0104F5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PadelPro/Events.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
+            landmarkName = "handleSpotlight(userActivity:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "70C440F2-860C-4519-A9DB-7A269C0104F5 - 8626fa62c5bbc9b2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PadelPro.EventsView.handleSpotlight(userActivity: __C.NSUserActivity) -&gt; ()"
+                  moduleName = "PadelPro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joaobzao/Documents/dev/ios/PadelPro-ios/PadelPro/Events.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "246"
+                  endingLineNumber = "246"
+                  offsetFromSymbolStart = "180">
+               </Location>
+               <Location
+                  uuid = "70C440F2-860C-4519-A9DB-7A269C0104F5 - 8626fa62c5bbc9b2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PadelPro.EventsView.handleSpotlight(userActivity: __C.NSUserActivity) -&gt; ()"
+                  moduleName = "PadelPro"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/joaobzao/Documents/dev/ios/PadelPro-ios/PadelPro/Events.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "246"
+                  endingLineNumber = "246"
+                  offsetFromSymbolStart = "68">
                </Location>
             </Locations>
          </BreakpointContent>
