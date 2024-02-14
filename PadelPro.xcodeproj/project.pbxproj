@@ -14,6 +14,7 @@
 		A51EFAAE2B75C28600C3BA8B /* Favourites.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51EFAAD2B75C28600C3BA8B /* Favourites.swift */; };
 		A51EFAB02B75D0E400C3BA8B /* OnBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51EFAAF2B75D0E400C3BA8B /* OnBoardingView.swift */; };
 		A51EFAB22B75D18600C3BA8B /* OnBoardingStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51EFAB12B75D18600C3BA8B /* OnBoardingStepView.swift */; };
+		A51EFAB62B7D780100C3BA8B /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A51EFAB52B7D780100C3BA8B /* NetworkMonitor.swift */; };
 		A585D3EE2B6FB79D00A0B154 /* PadelProApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A585D3ED2B6FB79D00A0B154 /* PadelProApp.swift */; };
 		A585D3F22B6FB79F00A0B154 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A585D3F12B6FB79F00A0B154 /* Assets.xcassets */; };
 		A585D3F52B6FB79F00A0B154 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A585D3F42B6FB79F00A0B154 /* Preview Assets.xcassets */; };
@@ -49,6 +50,7 @@
 		A51EFAAD2B75C28600C3BA8B /* Favourites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favourites.swift; sourceTree = "<group>"; };
 		A51EFAAF2B75D0E400C3BA8B /* OnBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingView.swift; sourceTree = "<group>"; };
 		A51EFAB12B75D18600C3BA8B /* OnBoardingStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingStepView.swift; sourceTree = "<group>"; };
+		A51EFAB52B7D780100C3BA8B /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		A585D3EA2B6FB79D00A0B154 /* PadelPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PadelPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A585D3ED2B6FB79D00A0B154 /* PadelProApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadelProApp.swift; sourceTree = "<group>"; };
 		A585D3F12B6FB79F00A0B154 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -92,6 +94,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A51EFAB42B7D77F100C3BA8B /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				A51EFAB52B7D780100C3BA8B /* NetworkMonitor.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		A585D3E12B6FB79D00A0B154 = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +125,7 @@
 		A585D3EC2B6FB79D00A0B154 /* PadelPro */ = {
 			isa = PBXGroup;
 			children = (
+				A51EFAB42B7D77F100C3BA8B /* Network */,
 				A51EFAA42B71CE4E00C3BA8B /* GoogleService-Info.plist */,
 				A51EFAA32B71B24300C3BA8B /* Info.plist */,
 				A585D3ED2B6FB79D00A0B154 /* PadelProApp.swift */,
@@ -297,6 +308,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A51EFAAE2B75C28600C3BA8B /* Favourites.swift in Sources */,
+				A51EFAB62B7D780100C3BA8B /* NetworkMonitor.swift in Sources */,
 				A51EFAB22B75D18600C3BA8B /* OnBoardingStepView.swift in Sources */,
 				A585D41D2B6FBF2000A0B154 /* Event.swift in Sources */,
 				A51EFAB02B75D0E400C3BA8B /* OnBoardingView.swift in Sources */,
