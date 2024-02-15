@@ -109,6 +109,7 @@
 				A585D3FD2B6FB79F00A0B154 /* PadelProTests */,
 				A585D4072B6FB79F00A0B154 /* PadelProUITests */,
 				A585D3EB2B6FB79D00A0B154 /* Products */,
+				A58E9CF82B7D9E8200D1C318 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -164,6 +165,13 @@
 				A585D40A2B6FB79F00A0B154 /* PadelProUITestsLaunchTests.swift */,
 			);
 			path = PadelProUITests;
+			sourceTree = "<group>";
+		};
+		A58E9CF82B7D9E8200D1C318 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
