@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PadelTuga</string>
+    <string name="all">Tudo</string>
+    <string name="navigation_title_activities">Actividades Padel 2024</string>
 </resources>

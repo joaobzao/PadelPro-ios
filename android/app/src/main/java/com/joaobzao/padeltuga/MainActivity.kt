@@ -29,6 +29,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.joaobzao.padeltuga.ui.theme.PadelTugaTheme
 
@@ -48,6 +49,26 @@ class MainActivity : ComponentActivity() {
                         containerColor = Color.Transparent,
                         contentColor = MaterialTheme.colorScheme.onBackground,
                         contentWindowInsets = WindowInsets(0, 0, 0, 0),
+                        bottomBar = {
+                            NiaNavigationBarItem(
+                                selected = selected,
+                                onClick = { onNavigateToDestination(destination) },
+                                icon = {
+                                    Icon(
+                                        imageVector = destination.unselectedIcon,
+                                        contentDescription = null,
+                                    )
+                                },
+                                selectedIcon = {
+                                    Icon(
+                                        imageVector = destination.selectedIcon,
+                                        contentDescription = null,
+                                    )
+                                },
+                                label = { Text(stringResource(destination.iconTextId)) },
+                                modifier = if (hasUnread) Modifier.notificationDot() else Modifier,
+                            )
+                        }
                     ) {
                         Row(
                             Modifier
