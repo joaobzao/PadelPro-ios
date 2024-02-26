@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import FirebaseAnalytics
 
 @Reducer
 struct Favourites {
@@ -132,6 +133,11 @@ struct FavouritesView: View {
             guard store.searchText.isEmpty else { return }
             
             store.send(.searchQuerySubmit(store.searchText))
+        }
+        .onAppear {
+            Analytics.logEvent(AnalyticsEventScreenView,
+                                       parameters: [AnalyticsParameterScreenName: "\(FavouritesView.self)",
+                                                    AnalyticsParameterScreenClass: "\(FavouritesView.self)"])
         }
     }
 }

@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import FirebaseAnalytics
 
 enum FilterEventType: LocalizedStringKey, CaseIterable, Hashable {
     case all = "Tudo"
@@ -221,6 +222,11 @@ struct EventsView: View {
             guard store.searchText.isEmpty else { return }
             
             store.send(.searchQuerySubmit(store.searchText))
+        }
+        .onAppear {
+            Analytics.logEvent(AnalyticsEventScreenView,
+                                       parameters: [AnalyticsParameterScreenName: "\(EventsView.self)",
+                                                    AnalyticsParameterScreenClass: "\(EventsView.self)"])
         }
     }
 }
