@@ -68,6 +68,7 @@ enum FilterEventDivision: String, Comparable, CaseIterable, Hashable {
 struct Events {
     @ObservableState
     struct State: Equatable {
+        var modifiedAt: Date = Date()
         var events: IdentifiedArrayOf<Event.State> = []
         var filterEventType: FilterEventType = .all
         var filterEventDivision: FilterEventDivision = .abs
@@ -124,6 +125,7 @@ struct Events {
                 state.events = []
                 return .none
             case let .eventsResponse(.success(response)):
+                state.modifiedAt = response.modifiedAt
                 state.events = IdentifiedArrayOf(
                     uniqueElements: response.events.map {
                         Event.State(
@@ -179,6 +181,7 @@ struct Events {
 
 struct EventsView: View {
     @Bindable var store: StoreOf<Events>
+    @State private var modifiedAtAlert = false
     
     var body: some View {
         NavigationStack {
@@ -215,6 +218,25 @@ struct EventsView: View {
             .onAppear { store.send(.retrieveEvents) }
             .navigationTitle("Actividades Padel 2024")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        modifiedAtAlert.toggle()
+                    } label: {
+                        // Specify the image here
+                        Image(systemName: "info.circle") // Using SF Symbols
+                    }
+                    .alert(isPresented: $modifiedAtAlert) {
+                        Alert(
+                            title: Text("Actualização Calendário"),
+                            message: Text("O calendário foi actualizado na data: \(store.state.modifiedAt.yearMonthDay)"),
+                            dismissButton: .default(
+                                Text("OK")
+                            )
+                        )
+                    }
+                }
+            }
         }
         .searchable(text: $store.searchText, prompt: "Pesquisa")
         .onSubmit(of: .search) { store.send(.searchQuerySubmit(store.searchText)) }
@@ -228,6 +250,18 @@ struct EventsView: View {
                                        parameters: [AnalyticsParameterScreenName: "\(EventsView.self)",
                                                     AnalyticsParameterScreenClass: "\(EventsView.self)"])
         }
+    }
+}
+
+extension Date {
+    var yearMonthDay: String {
+        let calendar = Calendar.current
+
+        let year = calendar.component(.year, from: self)
+        let month = calendar.component(.month, from: self)
+        let day = calendar.component(.day, from: self)
+
+        return "\(day)/\(month)/\(year)"
     }
 }
 
