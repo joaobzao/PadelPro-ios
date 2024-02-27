@@ -56,7 +56,7 @@ extension DependencyValues {
 extension EventsClient: DependencyKey {
     static let liveValue = EventsClient(
         events: {
-            var url = URL(string: "https://joaobzao.github.io/api/fppadel/v1/2024.json")!
+            var url = URL(string: "https://joaobzao.github.io/api/fppadel/2024.json")!
             
             let (data, _) = try await URLSession.shared.data(from: url)
             return try jsonDecoder.decode(EventsModel.self, from: data)
